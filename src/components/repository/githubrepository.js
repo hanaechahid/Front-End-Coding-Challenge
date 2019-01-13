@@ -69,9 +69,12 @@ class GithubRepository extends Component {
                 {
                     repositories.length < 1 ? <Spinner /> :
                     repositories.map((repository, index) => {
-                        let stars = repository.stargazers_count / 1000;
-                        let issues = repository.open_issues_count / 1000;
-                        let dateSubmited = Date.parse(new Date())  - Date.parse(repository.created_at);
+                        //Number of stars
+                        const stars = repository.stargazers_count / 1000;
+                        //number of issues
+                        const issues = repository.open_issues_count / 1000;
+                        const dateSubmited = Date.parse(new Date())  - Date.parse(repository.created_at);
+                        const NDays = Math.floor(dateSubmited / (1000*60*60*24));
                         return(
                             <div className="col m7" key={repository.id + index}>
                                 <div className="card horizontal">
@@ -85,13 +88,13 @@ class GithubRepository extends Component {
                                             <div className="stars-issues">
                                                 { stars < 1 ?
                                                     <p className="stars-issues-border">Stars: {repository.stargazers_count}K</p> :
-                                                    <p className="stars-issues-border">Stars: {stars}K</p>
+                                                    <p className="stars-issues-border">Stars: {stars.toFixed(1)}K</p>
                                                 }
                                                 { issues < 1 ? 
                                                     <p className="stars-issues-border">Issues: {repository.open_issues_count}K</p> :
-                                                    <p className="stars-issues-border">Issues: {issues}K</p>
+                                                    <p className="stars-issues-border">Issues: {issues.toFixed(1)}K</p>
                                                 }
-                                                <p> Submited { Math.floor(dateSubmited/(1000*60*60*24)) } days ago by {repository.owner.login}</p>
+                                                <p> Submited {NDays } days ago by {repository.owner.login}</p>
                                             </div>
                                         </div>
                                     </div>
