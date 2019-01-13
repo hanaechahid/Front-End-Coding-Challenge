@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import GithubRepository from './components/githubrepository';
-import './App.css';
+import GithubRepository from './components/repository/githubrepository';
 
 class App extends Component {
   

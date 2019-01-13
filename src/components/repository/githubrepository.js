@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
-import '../App.css';
-import {getAllRepositories} from '../services/repositories';
+import './repository.css';
+
+//components
+import Spinner from '../spinner/spinner';
+
+//Services
+import {getAllRepositories} from '../../services/repositories';
+
 
 class GithubRepository extends Component {
     constructor(props){
         super(props);
         this.state = {
             repositories: [],
-            page: 0,
+            page: 1,
             hasMore: true,
             isLoading: false
         };
@@ -61,15 +67,16 @@ class GithubRepository extends Component {
         return (
             <div>
                 {
-                    repositories.map(repository => {
+                    repositories.length < 1 ? <Spinner /> :
+                    repositories.map((repository, index) => {
                         let stars = repository.stargazers_count / 1000;
                         let issues = repository.open_issues_count / 1000;
                         let dateSubmited = Date.parse(new Date())  - Date.parse(repository.created_at);
                         return(
-                            <div className="col m7" key={repository.id}>
+                            <div className="col m7" key={repository.id + index}>
                                 <div className="card horizontal">
                                     <div className="card-image">
-                                        <img src={repository.owner.avatar_url} alt='avatar' height="500" width="100"/>
+                                        <img src={repository.owner.avatar_url} alt='avatar' height="300" width="100"/>
                                     </div>
                                     <div className="card-stacked">
                                         <div className="card-content">
@@ -93,7 +100,7 @@ class GithubRepository extends Component {
                         )
                     })
                 }
-                {   isLoading && <h5 align="center">Loading...</h5> }
+                {   isLoading && <Spinner /> }
                 {   !hasMore && <h5 align="center">You did it! You reached the end!</h5> }
             </div>
         );
