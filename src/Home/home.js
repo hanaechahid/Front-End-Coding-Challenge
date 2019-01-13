@@ -59,10 +59,17 @@ class Home extends Component {
     }
 
     render () {
-        const { isLoading, hasMore } = this.state;
+        const { isLoading, hasMore, repositories } = this.state;
         return(
             <div>
-                <GithubRepository repositories={this.state.repositories} />
+                {
+                    repositories.length < 1 ? <Spinner /> :
+                    repositories.map((repository, index) => {
+                    return (
+                        <GithubRepository repository={repository} index= {index} />
+                    )
+                })}
+                
                 {   isLoading &&  <Spinner /> }
                 {   !hasMore && <h5 align="center">You did it! You reached the end!</h5> }
             </div>
