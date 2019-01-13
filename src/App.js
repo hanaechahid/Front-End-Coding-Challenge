@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import GithubRepository from './components/repository/githubrepository';
+import Home from './Home/home';
 
 class App extends Component {
   
   render() {
     return (
       <div>
-        <GithubRepository />
+        <Home />
       </div>
     );
   }
