@@ -9,7 +9,7 @@ class Home extends Component {
         super(props);
         this.state = {
             repositories: [],
-            page: 1,
+            page: 0,
             hasMore: true,
             isLoading: false
         };
