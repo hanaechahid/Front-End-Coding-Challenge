@@ -1,6 +1,8 @@
 import axios from 'axios';
+import {calculDate} from '../utils/date.util';
 
 //get all repositories in page 0
 export function getAllRepositories(page) {
-     return axios.get(`https://api.github.com/search/repositories?q=created:>2017-11-22&sort=stars&order=desc&page=${page}`);
+     const date = calculDate();
+     return axios.get(`https://api.github.com/search/repositories?q=${date}&sort=stars&order=desc&page=${page}`);
 }

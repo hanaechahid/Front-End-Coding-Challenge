@@ -66,7 +66,7 @@ class Home extends Component {
                     repositories.length < 1 ? <Spinner /> :
                     repositories.map((repository, index) => {
                     return (
-                        <GithubRepository repository={repository} index= {index} />
+                        <GithubRepository repository={repository} key={repository.id + index} />
                     )
                 })}
                 

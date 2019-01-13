@@ -2,7 +2,7 @@ import React from 'react';
 import './repository.css';
 
 const GithubRepository = (props) => {
-    const { repository, index } = props;
+    const { repository} = props;
     //Number of stars
     const stars = repository.stargazers_count / 1000;
     //number of issues
@@ -12,7 +12,7 @@ const GithubRepository = (props) => {
 
     return (
         <div>
-            <div className="col m7" key={repository.id + index}>
+            <div className="col m7">
                 <div className="card horizontal">
                     <div className="card-image">
                         <img src={repository.owner.avatar_url} alt='avatar' height="300" width="100"/>
