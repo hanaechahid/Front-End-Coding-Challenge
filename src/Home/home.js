@@ -53,8 +53,6 @@ class Home extends Component {
                         ...response.data.items
                     ]
                 });
-                console.log(this.state.page, this.state.hasMore);
-                console.log(this.state.repositories);
             })
             .catch((err) => {
                 this.setState({
