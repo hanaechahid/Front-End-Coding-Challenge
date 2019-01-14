@@ -9,28 +9,33 @@ class Home extends Component {
         super(props);
         this.state = {
             repositories: [],
-            page: 0,
-            hasMore: true,
-            isLoading: false
-        };
-
-        //bind scroll event handller
-        window.onscroll = () => {
-            const {isLoading, hasMore} = this.state;
-            // Bails early if:
-            // * it's already loading
-            // * there's nothing left to load
-            if (isLoading || !hasMore) return;
-            // Check that the page has scrolled to the bottom
-            if ( window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
-                this.loadMoreRepositories();
-            }
+            page: 1,
+            isLoading: false,
+            hasMore: true
         };
     }
+
     componentDidMount(){
         getAllRepositories(this.state.page).then( response => {
             this.setState({ repositories: response.data.items});
         });
+        window.addEventListener('scroll', this.onScroll, false);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.onScroll, false);
+    }
+
+    //scroll event handler
+    onScroll = () => {
+        const {isLoading, hasMore} = this.state;
+        // Bails early if:
+        // * it's already loading
+        if (isLoading || !hasMore) return;
+        if ( (window.innerHeight + window.scrollY ) >= document.body.offsetHeight ) 
+        {
+          this.loadMoreRepositories();
+        }
     }
 
     //load more repositories 
@@ -41,14 +46,15 @@ class Home extends Component {
         }, () => {
             getAllRepositories(this.state.page).then( response => {
                 this.setState({
-                    hasMore: (this.state.repositories.length < 100),
+                    hasMore: (this.state.page <= 23) ,
                     isLoading: false,
                     repositories: [
                         ...this.state.repositories,
                         ...response.data.items
                     ]
                 });
-                console.log(this.state.page);
+                console.log(this.state.page, this.state.hasMore);
+                console.log(this.state.repositories);
             })
             .catch((err) => {
                 this.setState({
@@ -59,19 +65,18 @@ class Home extends Component {
     }
 
     render () {
-        const { isLoading, hasMore, repositories } = this.state;
+        const { isLoading, repositories } = this.state;
         return(
             <div>
                 {
                     repositories.length < 1 ? <Spinner /> :
-                    repositories.map((repository, index) => {
-                    return (
-                        <GithubRepository repository={repository} key={repository.id + index} />
-                    )
-                })}
-                
+                    repositories.map( (repository) => {
+                        return (
+                            <GithubRepository repository={repository} key={repository.id } />
+                        )
+                    })
+                }
                 {   isLoading &&  <Spinner /> }
-                {   !hasMore && <h5 align="center">You did it! You reached the end!</h5> }
             </div>
         )
     }
